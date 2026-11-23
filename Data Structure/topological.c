@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 100
+int adj[MAX][MAX];
+int visited[MAX];
+int stack[MAX];
+int top=-1;
+void addEdge(int u,int v){
+adj[u][v]=1;
+}
+void dfs(int v,int n){
+visited[v]=1;
+for(int i=0;i<n;i++){
+	if(adj[v][i]&&!visited[i]){
+		dfs(i,n);
+	}
+}
+stack[++top]=v;
+}
+void topologicalSort(int n){
+for(int i=0;i<n;i++){
+	if(!visited[i]){
+		dfs(i,n);
+	}
+}
+printf("Topological order:");
+while(top>=0){
+	printf("%d\t",stack[top--]);
+}
+printf("\n");
+}
+int main(){
+int u,v,n,edge;
+printf("Enter the number of vertices:");
+scanf("%d",&n);
+for(int i=0;i<n;i++){
+	for(int j=0;j<n;j++){
+		adj[i][j]=0;
+	}
+	visited[i]=0;
+}
+printf("Enter the number of edges:");
+scanf("%d",&edge);
+printf("Enter the edges(u v)(0-based index):\n");
+for(int i=0;i<edge;i++){
+	scanf("%d%d",&u,&v);
+	addEdge(u,v);
+}
+topologicalSort(n);
+return 0;
+}
